@@ -22,7 +22,7 @@ def game():
     choice = input(" What is your choice ? >> ")
     if choice == "r" or choice == "s" or choice == "p":
         client.send(choice.encode("utf-8"))
-        print(" Waiting for other player respond...")
+        print(" Waiting for another player to choose...")
         result = client.recv(1024).decode("utf-8")
         print(result)
         client.close()
@@ -35,7 +35,7 @@ host = '192.168.170.14'
 port = 8888
 try:
     client.connect((host, port))
-    print(" Waiting for other player...")
+    print(" Waiting for another player to join...")
 except socket.error as e:
     print(str(e))
     
