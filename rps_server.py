@@ -2,104 +2,134 @@ import socket
 import threading
 import time
 
-# Creating socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Socket config
 s.bind(("",8888))
-s.listen(3)
-
 print("Waiting for players to join")
+s.listen(3)
 
 # Keeping track of players
 players = []
-playerID = 0
+playerid = 0
 player1 = ""
 player2 = ""
+score1 = 0
+score2 = 0 
 
 # Send data to specific player
-def send_to_player(data, currentPlayer):
+def dataplayer(data, currentPlayer):
     for player in players:
         if currentPlayer == player:
             player.sendall(data.encode("utf-8"))
 
 # Send data to all players
-def send_to_all_players(data):
+def dataAll(data):
     for player in players:
         player.send(data.encode("utf-8"))
 
-# Find the winner
-def game_handling():
-    global player1, player2
-    if player1 != "" and player2 != "":
-        if player1 == "r":
-            if player2 == "r":
-                send_to_all_players("IT'S A DRAW!!")
-            if player2 == "s":
-                send_to_player("You Win!", players[0])
-                send_to_player("You Lose!", players[1])
-            if player2 == "p":
-                send_to_player("You Lose!", players[0])
-                send_to_player("You Win!", players[1])
-        if player1 == "s":
-            if player2 == "s":
-                send_to_all_players("IT'S A DRAW!!")
-            if player2 == "p":
-                send_to_player("You Win!", players[0])
-                send_to_player("You Lose!", players[1])
-            if player2 == "r":
-                send_to_player("You Lose!", players[0])
-                send_to_player("You Win!", players[1])
-        if player1 == "p":
-            if player2 == "p":
-                send_to_all_players("IT'S A DRAW!!")
-            if player2 == "r":
-                send_to_player("You Win!", players[0])
-                send_to_player("You Lose!", players[1])
-            if player2 == "s":
-                send_to_player("You Lose!", players[0])
-                send_to_player("You Win!", players[1])
-        player1 = ""
-        player2 = ""
 
+def game():
+    global player1, player2, score1, score2 
+   
+    if player1 == "r":
+        if player2 == "r":
+            dataAll("IT'S A DRAW!!")
+        if player2 == "s":
+            dataplayer("You Win!", players[0])
+            score1 += 1
+            dataplayer(score1, players[0])
+            dataplayer("You Lose!", players[1])
+            dataplayer(score2, players[1])
+        if player2 == "p":
+            dataplayer("You Lose!", players[0])
+            dataplayer(score1, players[0])
+            dataplayer("You Win!", players[1])
+            score2 += 1
+            dataplayer(score2, players[1])
+                
+    if player1 == "s":
+        if player2 == "s":
+            dataAll("IT'S A DRAW!!")
+        if player2 == "p":
+            dataplayer("You Win!", players[0])
+            score1 += 1
+            dataplayer(score1, players[0])
+            dataplayer("You Lose!", players[1])
+            dataplayer(score2, players[1])
+        if player2 == "r":
+            dataplayer("You Lose!", players[0])
+            dataplayer(score1, players[0])
+            dataplayer("You Win!", players[1])
+            score2 += 1
+            dataplayer(score2, players[1])
+                
+    if player1 == "p":
+        if player2 == "p":
+            dataAll("IT'S A DRAW!!")
+        if player2 == "r":
+            dataplayer("You Win!", players[0])
+            score1 += 1
+            dataplayer(score1, players[0])
+            dataplayer("You Lose!", players[1])
+            dataplayer(score2, players[1])
+        if player2 == "s":
+            dataplayer("You Lose!", players[0])
+            dataplayer(score1, players[0])
+            dataplayer("You Win!", players[1])
+            score2 += 1
+            dataplayer(score2, players[1])
+    player1 = ""
+    player2 = ""
+        
+def winner():
+    global player1, player2, score1, score2
+    
+    if score1 > score2:
+        dataplayer(" You are the Winner! congratulations :) ", players[0])
+        dataplayer(" Sorry, You lose the game :( ", players[1])
+    elif score2 > score1: 
+        dataplayer(" Sorry, You lose the game :( ", players[0])
+        dataplayer(" You are the Winner! congratulations :) ", players[1])
+    else:
+        dataAll(" It's a draw! congratulations to both players ")
+        
+    
+       
 # Thread handling
-def thread_handling(conn, currentPlayerID):
+def thread_handling(conn, id):
     while True:
         try:
-            dataIn = conn.recv(1024).decode("utf-8")
-            global player1, player2
-            if dataIn:
-                if dataIn == "r" or dataIn == "s" or dataIn == "p":
-                    if currentPlayerID == 0:
-                        player1 = dataIn
-                        game_handling()
-                    if currentPlayerID == 1:
-                        player2 = dataIn
-                        game_handling()
-                else:
-                    conn.send("\n Not a correct input...".encode("utf-8"))
+            for x in range(5):
+                choice = conn.recv(1024).decode("utf-8")
+                global player1, player2
+                if id == 0:
+                    player1 = choice
+                    game()
+                if id == 1:
+                    player2 = choice
+                    game()
+                x += 1
+            winner()   
         except:
-            global playerID
-            print("Player Disconnected: " + str(currentPlayerID))
-            players.pop(currentPlayerID)
-            playerID = currentPlayerID
+            global playerid
+            print("Player Disconnected: " + str(id))
+            players.pop(id)
+            playerid = id
             break
 
 # Handling incoming connections
 while True:
-    if playerID < 3:
+    if playerid < 3:
         conn, addr = s.accept()
         print("Player connected from: " + str(addr))
         players.append(conn)
 
         # Threading
-        thread = threading.Thread(target=thread_handling, args=(conn, playerID))
+        thread = threading.Thread(target=thread_handling, args=(conn, playerid))
         thread.start()
-
+        
         if len(players) == 2:
-            send_to_all_players("READY TO PLAY")
-
-        playerID += 1
+            dataAll(" Game is starting ...")
+        playerid += 1
     else:
         print("Cannot accept more players")
         break
