@@ -14,14 +14,16 @@ def thread_handling(conn, currentPlayerID):
     while True:
         try:
             choice = conn.recv(1024).decode("utf-8")
-            print(choice)
+            
             global player1, player2
             if currentPlayerID == 0:
                 player1 = choice
                 game()
+                print("Player1:" + choice)
             if currentPlayerID == 1:
                 player2 = choice
                 game()
+                print("Player2:" + choice)
         except:
             global playerID
             print("Player Disconnected: " + str(currentPlayerID))
