@@ -1,6 +1,8 @@
 import socket
 import threading
 
+players = []
+playerID = 0
 player1 = ""
 player2 = ""
 
@@ -67,11 +69,6 @@ def game():
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("",8888))
 s.listen(3)
-
-players = []
-playerID = 0
-player1 = ""
-player2 = ""
 
 print("Waiting for players to join")
 
