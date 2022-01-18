@@ -10,6 +10,7 @@ except socket.error as e:
     print(str(e))
 
 print(" Waiting for other player")
+choices = ['R', 'P', 'S', "s", "p", "r"]   #set of choices
 start = client.recv(512).decode("utf-8")
 print(start)
 
@@ -35,7 +36,7 @@ for x in range(5):
 
     choice = input(" What is your choice ? >> ")
     while True:
-        if choice == "r" or client == "s" or client == "p":
+        if choice in choices:
             client.send(choice.encode("utf-8"))
             break
         else:
