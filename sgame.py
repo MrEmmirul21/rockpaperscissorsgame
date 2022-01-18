@@ -11,7 +11,7 @@ def send1(data, currentPlayer):
         if currentPlayer == player:
             player.sendall(data.encode("utf-8"))
             
-def sendall(data):
+def sendtoall(data):
     for player in players:
         player.send(data.encode("utf-8"))
         
@@ -61,7 +61,7 @@ def game():
             send1("You Win!", players[1])
             
     elif player1 == player2:
-        sendall("IT'S A DRAW!!")
+        sendtoall("IT'S A DRAW!!")
     
     player1 = ""
     player2 = ""           
@@ -81,7 +81,7 @@ while True:
         thread.start()
         
         if len(players) == 2:
-            sendall("READY_TO_PLAY")
+            sendtoall("READY_TO_PLAY")
 
         playerID += 1
     else:
