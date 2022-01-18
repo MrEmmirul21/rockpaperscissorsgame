@@ -22,12 +22,12 @@ def game():
     choice = input(" What is your choice ? >> ")
     if choice == "r" or choice == "s" or choice == "p":
         client.send(choice.encode("utf-8"))
-        print("Waiting for other player...")
+        print(" Waiting for other player respond...")
         result = client.recv(1024).decode("utf-8")
         print(result)
         client.close()
     else:
-        print("Not correct input...")
+        print(" Not correct input...")
         game()
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,7 +45,7 @@ while True:
     dataIn = client.recv(1024).decode("utf-8")
     if not ready_to_play:
         if dataIn == "READY_TO_PLAY":
-            print("Ready to play")
+            print(" Ready to play")
             game()
             ready_to_play = True
         
