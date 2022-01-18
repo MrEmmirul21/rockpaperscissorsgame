@@ -77,12 +77,13 @@ while True:
         conn, addr = s.accept()
         print("Player connected from: " + str(addr))
         players.append(conn)
-        thread = threading.Thread(target=thread_handling, args=(conn, playerID))
-        thread.start()
         
         if len(players) == 2:
             sendtoall("READY_TO_PLAY")
-
+        
+        thread = threading.Thread(target=thread_handling, args=(conn, playerID))
+        thread.start()
+        
         playerID += 1
     else:
         print("Can't have more players...")
