@@ -42,7 +42,7 @@ except socket.error as e:
 ready_to_play = False
 
 while True:
-    dataIn = s.recv(1024).decode("utf-8")
+    dataIn = client.recv(1024).decode("utf-8")
     if not ready_to_play:
         if dataIn == "READY_TO_PLAY":
             print("Ready to play")
