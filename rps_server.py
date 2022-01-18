@@ -13,7 +13,7 @@ playerid = 0
 player1 = ""
 player2 = ""
 score1 = 0
-score2 = 0 
+score2 = 0
 
 # Send data to specific player
 def dataplayer(data, currentPlayer):
@@ -28,8 +28,8 @@ def dataAll(data):
 
 
 def game():
-    global player1, player2, score1, score2 
-   
+    global player1, player2, score1, score2
+
     if player1 == "r":
         if player2 == "r":
             dataAll("IT'S A DRAW!!")
@@ -45,7 +45,7 @@ def game():
             dataplayer("You Win!", players[1])
             score2 += 1
             dataplayer(score2, players[1])
-                
+
     if player1 == "s":
         if player2 == "s":
             dataAll("IT'S A DRAW!!")
@@ -61,7 +61,7 @@ def game():
             dataplayer("You Win!", players[1])
             score2 += 1
             dataplayer(score2, players[1])
-                
+
     if player1 == "p":
         if player2 == "p":
             dataAll("IT'S A DRAW!!")
@@ -79,21 +79,19 @@ def game():
             dataplayer(score2, players[1])
     player1 = ""
     player2 = ""
-        
+
 def winner():
     global player1, player2, score1, score2
-    
+
     if score1 > score2:
         dataplayer(" You are the Winner! congratulations :) ", players[0])
         dataplayer(" Sorry, You lose the game :( ", players[1])
-    elif score2 > score1: 
+    elif score2 > score1:
         dataplayer(" Sorry, You lose the game :( ", players[0])
         dataplayer(" You are the Winner! congratulations :) ", players[1])
     else:
         dataAll(" It's a draw! congratulations to both players ")
-        
-    
-       
+
 # Thread handling
 def thread_handling(conn, id):
     while True:
@@ -108,7 +106,7 @@ def thread_handling(conn, id):
                     player2 = choice
                     game()
                 x += 1
-            winner()   
+            winner()
         except:
             global playerid
             print("Player Disconnected: " + str(id))
@@ -126,7 +124,6 @@ while True:
         # Threading
         thread = threading.Thread(target=thread_handling, args=(conn, playerid))
         thread.start()
-        
         if len(players) == 2:
             dataAll(" Game is starting ...")
         playerid += 1
