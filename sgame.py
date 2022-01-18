@@ -19,7 +19,7 @@ def thread_handling(conn, currentPlayerID):
             if currentPlayerID == 0:
                 player1 = choice
                 game()
-            elif currentPlayerID == 1:
+            if currentPlayerID == 1:
                 player2 = choice
                 game()
         except:
