@@ -32,33 +32,35 @@ def game():
     global player1, player2
     if player1 == "r":
         if player2 == "r":
-                sendall("IT'S A DRAW!!")
-            if player2 == "s":
-                send1("You Win!", players[0])
-                send1("You Lose!", players[1])
-            if player2 == "p":
-                send1("You Lose!", players[0])
-                send1("You Win!", players[1])
-        if player1 == "s":
-            if player2 == "s":
-                sendall("IT'S A DRAW!!")
-            if player2 == "p":
-                send1("You Win!", players[0])
-                send1("You Lose!", players[1])
-            if player2 == "r":
-                send1("You Lose!", players[0])
-                send1("You Win!", players[1])
-        if player1 == "p":
-            if player2 == "p":
-                sendall("IT'S A DRAW!!")
-            if player2 == "r":
-                send1("You Win!", players[0])
-                send1("You Lose!", players[1])
-            if player2 == "s":
-                send1("You Lose!", players[0])
-                send1("You Win!", players[1])
-        player1 = ""
-        player2 = ""           
+            sendall("IT'S A DRAW!!")
+        elif player2 == "s":
+            send1("You Win!", players[0])
+            send1("You Lose!", players[1])
+        elif player2 == "p":
+            send1("You Lose!", players[0])
+            send1("You Win!", players[1])
+                
+    elif player1 == "s":
+        if player2 == "s":
+            sendall("IT'S A DRAW!!")
+        elif player2 == "p":
+            send1("You Win!", players[0])
+            send1("You Lose!", players[1])
+        elif player2 == "r":
+            send1("You Lose!", players[0])
+            send1("You Win!", players[1])
+                
+    elif player1 == "p":
+        if player2 == "p":
+            sendall("IT'S A DRAW!!")
+        elif player2 == "r":
+            send1("You Win!", players[0])
+            send1("You Lose!", players[1])
+        elif player2 == "s":
+            send1("You Lose!", players[0])
+            send1("You Win!", players[1])
+    player1 = ""
+    player2 = ""           
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("",8888))
