@@ -16,9 +16,9 @@ def game():
     print(" ╚═════╝░░╚════╝░╚═╝╚═════╝░╚═════╝░░╚════╝░╚═╝░░╚═╝")
     print(" ###  Welcome to Rock Paper Scissor Multiplayer Game!  ###")
     print(" There will be FIVE rounds of game, Your choices >>> ")
-    print(" >>> r = Rock ")
-    print(" >>> s = Scissor ")
-    print(" >>> p = Paper ")
+    print(" [R] Rock ")
+    print(" [S] Scissor ")
+    print(" [P] Paper ")
     choice = input(" What is your choice ? >> ")
     if choice == "r" or choice == "s" or choice == "p":
         client.send(choice.encode("utf-8"))
