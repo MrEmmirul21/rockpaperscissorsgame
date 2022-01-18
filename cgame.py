@@ -23,7 +23,7 @@ def game():
     if choice == "r" or choice == "s" or choice == "p":
         client.send(choice.encode("utf-8"))
         print("Waiting for other player...")
-        result = s.recv(1024).decode("utf-8")
+        result = client.recv(1024).decode("utf-8")
         print(result)
         client.close()
     else:
