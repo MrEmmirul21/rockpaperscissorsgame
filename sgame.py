@@ -47,7 +47,7 @@ def game():
             send1("You Win!", players[1])
                 
     elif player1 == "p":
-        elif player2 == "r":
+        if player2 == "r":
             send1("You Win!", players[0])
             send1("You Lose!", players[1])
         elif player2 == "s":
