@@ -31,7 +31,7 @@ def game():
         game()
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = '192.168.56.103'
+host = '192.168.170.14'
 port = 8888
 try:
     client.connect((host, port))
